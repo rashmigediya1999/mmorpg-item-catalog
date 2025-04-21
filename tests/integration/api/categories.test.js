@@ -1,7 +1,6 @@
 import request from 'supertest';
 import app from '../../mocks/server.js'; 
 import { jest } from '@jest/globals';
-import jwt from 'jsonwebtoken';
 import { Category, Item } from '../../mocks/models.js'; // Adjust the import path as necessary
 
 describe('Categories API Integration Tests', () => {

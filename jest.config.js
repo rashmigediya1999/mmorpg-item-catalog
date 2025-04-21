@@ -42,17 +42,28 @@ export default {
     '^(\\.{1,2}/.*)\\.js$': '$1'
   },
 
+  // Test report option
+  reporters: [
+    "default",
+    [
+      "jest-html-reporters",
+      {
+        publicPath: "./test-reports",
+        filename: "test-report.html",
+        pageTitle: "Game Catalog API Test Report",
+        expand: true,
+        openReport: true,
+        includeFailureMsg: true,
+        includeConsoleLog: true
+      }
+    ]
+  ],
+
   testPathIgnorePatterns: ['/node_modules/'],
   
   // Provide a custom resolver
   resolver: undefined,
-  
-  // Coverage configuration
-  collectCoverageFrom: [
-    "src/**/*.js",
-    "!src/server.js"
-  ],
-  
+
   // Coverage thresholds
   coverageThreshold: {
     global: {

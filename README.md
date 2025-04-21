@@ -26,8 +26,6 @@ A comprehensive RESTful API for managing in-game items in an MMORPG, with catego
 
 ## Running the Application
 
-## Getting Started
-
 ### Prerequisites
 - Git
 - Docker and Docker Compose
@@ -57,8 +55,15 @@ This will:
 - Start the application
 - Make the API available at http://localhost:3000
 - API documentation at http://localhost:3000/api-docs
+- Generate test reports at test-reports/test-report.html
 
-Stop the application:
+You can view the detailed test report by opening:
+```
+test-reports/test-report.html
+```
+
+
+4. Stop the application:
 ```bash
 docker-compose -f docker-compose.yml down -v
 ```

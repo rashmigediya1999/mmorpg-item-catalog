@@ -62,7 +62,8 @@ services:
       JWT_SECRET: top-secret
     volumes:
       - ./:/usr/src/app/
-      - /usr/src/app/node_modules     
+      - /usr/src/app/node_modules    
+      - ./test-reports:/app/test-reports 
     networks:
       - game-catalog-network  
   # API service for testing
@@ -84,12 +85,31 @@ services:
       - JWT_SECRET=test-jwt-secret     
     networks:
       - game-catalog-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./coverage:/app/coverage
+      - ./test-reports:/app/test-reports
     command: >
       sh -c "
           npm run test:unit &&
           npm run test:integration &&
           npm run test:report &&
+          start ./test-reports/test-report.html &&
           exit 0"
+
+  # artillery:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.artillery
+  #   container_name: game-catalog-artillery
+  #   depends_on:
+  #     - api
+  #   volumes:
+  #     - ./load-tests:/artillery/load-tests
+  #     - ./reports:/artillery/reports
+  #   networks:
+  #     - game-catalog-network
 
 # Persistent volumes
 volumes:

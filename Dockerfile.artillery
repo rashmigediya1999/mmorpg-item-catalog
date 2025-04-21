@@ -1,0 +1,12 @@
+FROM node:current-alpine3.21
+# Install Artillery
+RUN npm install -g artillery@latest
+
+# Set working directory
+WORKDIR /artillery
+
+# Copy load test files
+COPY ./load-tests ./load-tests
+
+# Run the application
+CMD ["artillery", "run", "load-tests/scenarios.yml"]

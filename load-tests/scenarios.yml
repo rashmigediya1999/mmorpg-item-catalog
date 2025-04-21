@@ -1,0 +1,139 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 5
+      arrivalRate: 2
+  processor: "./processor.js"
+  defaults:
+    headers:
+      content-type: application/json
+
+scenarios:
+  - name: "Create random user, login, and fetch inventory"
+    flow:
+      - function: "generateUser"
+      - post:
+          url: "/api/auth/register"
+          json:
+            username: "{{ username }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+
+      - post:
+          url: "/api/auth/login"
+          json:
+            username: "{{ username }}"
+            password: "{{ password }}"
+          capture:
+            json: "$.token"
+            as: "authToken"
+
+      - loop:
+          - get:
+              url: "/api/inventory"
+              headers:
+                authorization: "Bearer {{ authToken }}"
+        count: 5
+  - name: "Login once, then loop protected route"
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            username: "admin"
+            password: "admin123"
+          capture:
+            json: "$.token"
+            as: "authToken"
+      - loop:
+          - get:
+              url: "/api/inventory"
+              headers:
+                authorization: "Bearer {{ authToken }}"
+        count: 5
+      - loop:
+        - post: "/api/inventory"
+          headers:
+            authorization: "Bearer {{ authToken }}"
+          json:
+            name: "test"
+            description: "test"
+            quantity: 1
+        count: 5
+
+
+
+# config:
+#   target: "http://localhost:3000"
+#   phases:
+#     - duration: 2
+#       arrivalRate: 5  # 5 virtual users per second
+#   defaults:
+#     headers:
+#       content-type: application/json
+#   payload:
+#     # path is relative to the location of the test script
+#     path: 'users.csv'
+#     fields:
+#       - 'username'
+#       - 'password'
+#     skipHeader: true
+#     loadAll: true
+#     order: sequence
+
+
+# scenarios:
+#   - name: "Create user, login, and fetch inventory"
+#     flow:
+#       - post:
+#           url: "/api/auth/register"
+#           json:
+#             username: "{{ username }}"
+#             email: "{{ email }}"
+#             password: "{{ password }}"
+#       # - post:
+#       #     url: "/api/auth/login"
+#       #     json:
+#       #       username: "{{ username }}"
+#       #       password: "{{ password }}"
+#       #     capture:
+#       #       json: "$.token"
+#       #       as: "authToken"
+#       # - loop:
+#       #   - get:
+#       #       url: "/api/inventory"
+#       #       headers:
+#       #         authorization: "Bearer {{ authToken }}"
+#       #   count: 5
+
+
+
+
+
+
+
+
+  # - name: "Login once, then loop protected route"
+  #   flow:
+  #     - post:
+  #         url: "/api/auth/login"
+  #         json:
+  #           username: "admin"
+  #           password: "admin123"
+  #         capture:
+  #           json: "$.token"
+  #           as: "authToken"
+  #     - loop:
+  #         - get:
+  #             url: "/api/inventory"
+  #             headers:
+  #               authorization: "Bearer {{ authToken }}"
+  #       count: 5
+  #     - loop:
+  #       - post: "/api/inventory"
+  #         headers:
+  #           authorization: "Bearer {{ authToken }}"
+  #         json:
+  #           name: "test"
+  #           description: "test"
+  #           quantity: 1
+  #       count: 5
