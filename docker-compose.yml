@@ -62,7 +62,7 @@ services:
       JWT_SECRET: top-secret
     volumes:
       - ./:/usr/src/app/
-      - /usr/src/app/node_modules
+      - /usr/src/app/node_modules     
     networks:
       - game-catalog-network  
   # API service for testing
@@ -84,7 +84,12 @@ services:
       - JWT_SECRET=test-jwt-secret     
     networks:
       - game-catalog-network
-    command: npm run test:unit && npm run test:integration  
+    command: >
+      sh -c "
+          npm run test:unit &&
+          npm run test:integration &&
+          npm run test:report &&
+          exit 0"
 
 # Persistent volumes
 volumes:

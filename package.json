@@ -11,9 +11,8 @@
     "test:unit": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js tests/unit --runInBand",   
     "test:integration": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js tests/integration --runInBand",
     "test:coverage": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --coverage",
-    "lint": "eslint .",
-    "db:seed": "node scripts/db-seed.js",
-    "db:migrate": "node scripts/db-migrate.js"
+    "test:report": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js --runInBand --testResultsProcessor=./node_modules/jest-html-reporter",
+    "lint": "eslint ."   
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -29,7 +28,8 @@
     "sequelize": "^6.31.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2",
-    "winston": "^3.8.2"
+    "winston": "^3.8.2",
+    "jest-html-reporter": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.0",

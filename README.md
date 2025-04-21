@@ -26,9 +26,27 @@ A comprehensive RESTful API for managing in-game items in an MMORPG, with catego
 
 ## Running the Application
 
+## Getting Started
+
+### Prerequisites
+- Git
+- Docker and Docker Compose
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/rashmigediya1999/mmorpg-item-catalog.git
+cd mmorpg-item-catalog
+```
+
+2. Change  environment files names:
+- .env.example to .env
+- .env.test.example to .env.test
+
 ### Using Docker
 
-Run everything (application + tests) with a single command:
+3. Run everything (application + tests) with a single command:
 ```bash
 docker-compose -f docker-compose.yml up --build
 ```
@@ -38,7 +56,7 @@ This will:
 - Run all tests (unit + integration)
 - Start the application
 - Make the API available at http://localhost:3000
-- API documentation: http://localhost:3000/api-docs
+- API documentation at http://localhost:3000/api-docs
 
 Stop the application:
 ```bash

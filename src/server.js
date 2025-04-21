@@ -53,6 +53,9 @@ app.use(morgan('dev')); // HTTP request logging
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // API routes
+app.get('/', (req, res) => {
+  res.send('<h2>Welcome to the Game Catalog API!<br>Visit API documentation at <a href="http://localhost:3000/api-docs" target="_blank">http://localhost:3000/api-docs</a></h2>');
+});
 app.use('/api', routes);
 
 // Error handling middleware
