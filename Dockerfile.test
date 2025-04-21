@@ -1,0 +1,23 @@
+
+FROM node:current-alpine3.21
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install all dependencies (including devDependencies for testing)
+RUN npm install
+
+# Copy app source code and test files
+COPY . .
+
+# Create directory for logs
+RUN mkdir -p logs
+
+# Set environment variables
+ENV NODE_ENV=test
+ENV NODE_OPTIONS="--experimental-vm-modules"
+
+# Command to run tests (will be overridden by docker-compose)
+CMD ["npm", "test"]

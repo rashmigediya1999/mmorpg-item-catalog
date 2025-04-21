@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database
+  # Production Database
+  postgres:
+    image: postgres:14-alpine
+    container_name: game-catalog-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: game_catalog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - game-catalog-network
+    command: >
+      postgres -c log_statement=all
+               -c logging_collector=on
+               -c log_destination=stderr
+
+  # Test Database
+  postgres-test:
+    image: postgres:14-alpine
+    container_name: game-catalog-test-db  
+    environment:
+      POSTGRES_DB: game_catalog_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"    
+    networks:
+      - game-catalog-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # API Application
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: game-catalog-api
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: game_catalog
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: top-secret
+    volumes:
+      - ./:/usr/src/app/
+      - /usr/src/app/node_modules
+    networks:
+      - game-catalog-network  
+  # API service for testing
+  api-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: game-catalog-tests
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=test
+      - DB_HOST=postgres-test
+      - DB_PORT=5432
+      - DB_NAME=game_catalog_test
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - JWT_SECRET=test-jwt-secret     
+    networks:
+      - game-catalog-network
+    command: npm run test:unit && npm run test:integration  
+
+# Persistent volumes
+volumes:
+  postgres_data:
+
+# Network for containers
+networks:
+  game-catalog-network:
+    driver: bridge
