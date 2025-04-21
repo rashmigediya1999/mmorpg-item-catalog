@@ -49,13 +49,13 @@ const itemService = {
   },
 
   // Find items by category
-  findByCategory: async (categoryId, options = {}) => {
-    return mockItemRepository.findByCategoryId(categoryId, options);
+  findByCategory: async (categoryid, options = {}) => {
+    return mockItemRepository.findByCategoryId(categoryid, options);
   },
 
   // Find items by rarity
-  findByRarity: async (rarityId, options = {}) => {
-    return mockItemRepository.findByRarityId(rarityId, options);
+  findByRarity: async (rarityid, options = {}) => {
+    return mockItemRepository.findByRarityId(rarityid, options);
   },
   
   // Search items by query
@@ -103,7 +103,7 @@ describe('Item Service', () => {
     
     it('should apply filters correctly', async () => {
       // Arrange
-      const mockFilter = { categoryId: 1 };
+      const mockFilter = { categoryid: 1 };
       const mockOptions = { limit: 10, offset: 0 };
       
       mockItemRepository.findAllWithRelations.mockResolvedValue([]);
@@ -241,8 +241,8 @@ describe('Item Service', () => {
     it('should return items by category ID', async () => {
       // Arrange
       const mockItems = [
-        { id: 1, name: 'Sword', categoryId: 1 },
-        { id: 2, name: 'Dagger', categoryId: 1 }
+        { id: 1, name: 'Sword', categoryid: 1 },
+        { id: 2, name: 'Dagger', categoryid: 1 }
       ];
       
       mockItemRepository.findByCategoryId.mockResolvedValue(mockItems);
@@ -260,8 +260,8 @@ describe('Item Service', () => {
     it('should return items by rarity ID', async () => {
       // Arrange
       const mockItems = [
-        { id: 1, name: 'Legendary Sword', rarityId: 5 },
-        { id: 3, name: 'Legendary Shield', rarityId: 5 }
+        { id: 1, name: 'Legendary Sword', rarityid: 5 },
+        { id: 3, name: 'Legendary Shield', rarityid: 5 }
       ];
       
       mockItemRepository.findByRarityId.mockResolvedValue(mockItems);

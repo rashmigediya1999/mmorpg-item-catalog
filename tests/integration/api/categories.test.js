@@ -21,26 +21,26 @@ describe('Categories API Integration Tests', () => {
         id: 1, 
         name: 'Weapons', 
         description: 'Items used for combat',
-        parentId: null,
+        parentid: null,
         subcategories: [
-          { id: 4, name: 'Swords', description: 'Melee weapons', parentId: 1 },
-          { id: 5, name: 'Bows', description: 'Ranged weapons', parentId: 1 }
+          { id: 4, name: 'Swords', description: 'Melee weapons', parentid: 1 },
+          { id: 5, name: 'Bows', description: 'Ranged weapons', parentid: 1 }
         ]
       },
       {
         id: 2,
         name: 'Armor',
         description: 'Protective gear',
-        parentId: null,
+        parentid: null,
         subcategories: [
-          { id: 6, name: 'Helmets', description: 'Head protection', parentId: 2 }
+          { id: 6, name: 'Helmets', description: 'Head protection', parentid: 2 }
         ]
       },
       {
         id: 3,
         name: 'Consumables',
         description: 'One-time use items',
-        parentId: null,
+        parentid: null,
         subcategories: []
       }
     ];
@@ -81,8 +81,8 @@ describe('Categories API Integration Tests', () => {
     
     // Mock items for category
     Item.findAll.mockResolvedValue([
-      { id: 1, name: 'Iron Sword', categoryId: 1 },
-      { id: 2, name: 'Steel Sword', categoryId: 1 }
+      { id: 1, name: 'Iron Sword', categoryid: 1 },
+      { id: 2, name: 'Steel Sword', categoryid: 1 }
     ]);
     Item.count.mockResolvedValue(2);
   });

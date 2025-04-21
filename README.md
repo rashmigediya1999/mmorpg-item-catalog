@@ -42,6 +42,11 @@ cd mmorpg-item-catalog
 - .env.example to .env
 - .env.test.example to .env.test
 
+### Default Admin Access
+The system comes with a pre-configured admin account:
+- Username: `admin`
+- Password: `admin123`
+
 ### Using Docker
 
 3. Run everything (application + tests) with a single command:
@@ -98,6 +103,7 @@ Access the Swagger documentation at http://localhost:3000/api-docs
 #### Inventory
 - `GET /api/inventory` - Get current user's inventory
 - `POST /api/inventory` - Add an item to inventory
-- `PUT /api/inventory/:itemId` - Update item quantity
-- `DELETE /api/inventory/:itemId` - Remove an item from inventory
+- `PUT /api/inventory/:itemid` - Update item quantity
+- `DELETE /api/inventory/:itemid` - Remove an item from inventory
+- `GET /api/inventory/users/{userid}` - Get a specific user'suser's inventory (admin only)
 
